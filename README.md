@@ -1,4 +1,6 @@
-# view-ui-project-vuecli
+# Online Judge System
+## Project of "Software Engineer" course in 24fall, SCU with supervisor Luo.
+## view-ui-project-vuecli
 This project build for Vue3, Vue-router, Vuex, ViewUIPlus and Vue-cli.
 ## Install
 ```shell
