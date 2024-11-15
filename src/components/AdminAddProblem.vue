@@ -65,31 +65,30 @@
             </Header>
             <br>
             <div>
-
                 <Card style="width:90%; left: 5%;">
-                    <template #title><h1 style="color: blueviolet;">Add Problem</h1></template>
-                    <h2>Problem Name <Icon type="ios-chatbubbles-outline" /></h2>
+                    <template #title><h2 style="color: blueviolet;">Add Problem</h2></template>
+                    <h4>Problem Name <Icon type="ios-chatbubbles-outline" /></h4>
                     <Paragraph v-model="problemNameInput" editable />
-                    <h2>Problem Description <Icon type="ios-chatbubbles-outline" /></h2>
+                    <h4>Problem Description <Icon type="ios-chatbubbles-outline" /></h4>
                     <Paragraph v-model="problemDescriptionInput" editable />
-                    <h2>Problem Input Description <Icon type="ios-chatbubbles-outline" /></h2>
+                    <h4>Problem Input Description <Icon type="ios-chatbubbles-outline" /></h4>
                     <Paragraph v-model="problemInputDescriptionInput" editable />
-                    <h2>Problem Output Description <Icon type="ios-chatbubbles-outline" /></h2>
+                    <h4>Problem Output Description <Icon type="ios-chatbubbles-outline" /></h4>
                     <Paragraph v-model="problemOutputDescriptionInput" editable />
-                    <h2>Input & Output Sample <Icon type="ios-chatbubbles-outline" /></h2>
+                    <h4>Input & Output Sample <Icon type="ios-chatbubbles-outline" /></h4>
                     <Paragraph v-model="problemInputOutputSampleInput" editable />
-                    <h2>Time Limit <Icon type="ios-chatbubbles-outline" /></h2>
+                    <h4>Time Limit <Icon type="ios-chatbubbles-outline" /></h4>
                     <InputNumber :min="0" :step="0.01" v-model="timeLimitInput" /> ms
                     <br>
-                    <h2>Memory Limit <Icon type="ios-chatbubbles-outline" /></h2>
+                    <h4>Memory Limit <Icon type="ios-chatbubbles-outline" /></h4>
                     <InputNumber :min="0" :step="0.01" v-model="memoryLimitInput" /> MB
                     <br>
-                    <h2>Difficulty Level <Icon type="ios-chatbubbles-outline" /></h2>
+                    <h4>Difficulty Level <Icon type="ios-chatbubbles-outline" /></h4>
                     <Select v-model="difficultyLevelInput" style="width:200px">
                         <Option v-for="item in difficultyLevelList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                     <br>
-                    <h2>Problem Category <Icon type="ios-chatbubbles-outline" /></h2>
+                    <h4>Problem Category <Icon type="ios-chatbubbles-outline" /></h4>
                     <Select v-model="problemCategoryInput" style="width:200px">
                         <Option v-for="item in problemCategoryList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
@@ -98,39 +97,42 @@
                 </Card>
             </div>
             <br>
-            <Table border :columns="columns" :data="data">
-                <template #name="{ row }">
-                    <strong>{{ row.name }}</strong>
-                </template>
-                <template #description="{ row }">
-                {{ row.description }}
-                </template>
-                <template #difficulty="{ row }">
-                {{ row.difficulty }}
-                </template>
-                <template #category="{ row }">
-                {{ row.category }}
-                </template>
-                <template #inputDescription="{ row }">
-                {{ row.inputDescription }}
-                </template>
-                <template #outputDescription="{ row }">
-                {{ row.outputDescription }}
-                </template>
-                <template #inputOutputSample="{ row }">
-                {{ row.inputOutputSample }}
-                </template>
-                <template #timeLimit="{ row }">
-                {{ row.timeLimit }} ms
-                </template>
-                <template #memoryLimit="{ row }">
-                {{ row.memoryLimit }} MB
-                </template>
-                <template #action="{ row, index }">
-                    <Button type="primary" size="small" style="margin-right: 5px" @click="show(index)">View</Button>
-                    <Button type="error" size="small" @click="remove(index)">Delete</Button>
-                </template>
-            </Table>
+            <Card style="width:90%; left: 5%;">
+                <template #title><h2 style="color: blueviolet;">Delete Problem</h2></template>
+                <Table border :columns="columns" :data="data">
+                    <template #name="{ row }">
+                        <strong>{{ row.name }}</strong>
+                    </template>
+                    <template #description="{ row }">
+                    {{ row.description }}
+                    </template>
+                    <template #difficulty="{ row }">
+                    {{ row.difficulty }}
+                    </template>
+                    <template #category="{ row }">
+                    {{ row.category }}
+                    </template>
+                    <template #inputDescription="{ row }">
+                    {{ row.inputDescription }}
+                    </template>
+                    <template #outputDescription="{ row }">
+                    {{ row.outputDescription }}
+                    </template>
+                    <template #inputOutputSample="{ row }">
+                    {{ row.inputOutputSample }}
+                    </template>
+                    <template #timeLimit="{ row }">
+                    {{ row.timeLimit }} ms
+                    </template>
+                    <template #memoryLimit="{ row }">
+                    {{ row.memoryLimit }} MB
+                    </template>
+                    <template #action="{ row, index }">
+                        <Button type="primary" size="small" style="margin-right: 5px" @click="show(index)">View</Button>
+                        <Button type="error" size="small" @click="remove(index)">Delete</Button>
+                    </template>
+                </Table>
+            </Card>
         </Layout>
     </div>
     <Footer> </Footer>
@@ -281,6 +283,16 @@
                         label: 'Master'
                     }
                 ],
+                problemNameInput:'',
+                problemDescriptionInput:'',
+                problemInputDescriptionInput:'',
+                problemOutputDescriptionInput:'',
+                problemInputOutputSampleInput:'',
+                timeLimitInput: 1000,
+                memoryLimitInput: 256,
+                difficultyLevelInput: 'Easy',
+                problemCategoryInput: 'Data Structure',
+
             }
         },
         methods: {
@@ -303,7 +315,40 @@
                 this.data.splice(index, 1);
             },
             clickSubmitInput() {
-                
+                this.$Modal.info(
+                    {
+                        title: 'Please Confirm Your Problem Information:',
+                        content: 'Problem Name: ' + this.problemNameInput + '<br>Problem Description: ' + this.problemDescriptionInput + '<br>Problem Input Description: ' + this.problemInputDescriptionInput + '<br>Problem Output Description: ' + this.problemOutputDescriptionInput + '<br>Input & Output Sample: ' + this.problemInputOutputSampleInput + '<br>Time Limit: ' + this.timeLimitInput + ' ms' + '<br>Memory Limit: ' + this.memoryLimitInput + ' MB' + '<br>Difficulty Level: ' + this.difficultyLevelInput + '<br>Problem Category: ' + this.problemCategoryInput,
+                        onOk: () => { this.handleSubmitAdd(); }
+                    }
+                )
+            },
+            handleSubmitAdd(){
+                if (this.problemNameInput === '' || this.problemDescriptionInput === '' || this.problemInputDescriptionInput === '' || this.problemOutputDescriptionInput === '' || this.problemInputOutputSampleInput === '') {
+                    this.$Message.error('Please fill in all the fields of a problem !');
+                    return;
+                }
+                this.data.push({
+                    name: this.problemNameInput,
+                    description: this.problemDescriptionInput,
+                    difficulty: this.difficultyLevelInput,
+                    category: this.problemCategoryInput,
+                    inputDescription: this.problemInputDescriptionInput,
+                    outputDescription: this.problemOutputDescriptionInput,
+                    inputOutputSample: this.problemInputOutputSampleInput,
+                    timeLimit: this.timeLimitInput,
+                    memoryLimit: this.memoryLimitInput,
+                });
+                this.problemNameInput = '';
+                this.problemDescriptionInput = '';
+                this.problemInputDescriptionInput = '';
+                this.problemOutputDescriptionInput = '';
+                this.problemInputOutputSampleInput = '';
+                this.timeLimitInput = 1000;
+                this.memoryLimitInput = 256;
+                this.difficultyLevelInput = 'Easy';
+                this.problemCategoryInput = 'Data Structure';
+                this.$Message.success('Problem Added Successfully!');
             }
         },
     }

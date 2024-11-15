@@ -13,7 +13,7 @@
                     <img :src="'./captcha/' + this.captcha" />
                   </template>
               </Captcha>
-              <Submit @click="handleClick" />
+              <Submit />
           </Login>
           <br><br>
           忘记了密码？立即找回！-> -> ->
@@ -62,14 +62,15 @@
           },
           methods: {
               handleSubmit (valid, { username: user_name, password: pass_word, captcha: captcha_value }) {
-                  if (valid) {
-                      this.$Modal.info({
-                          title: '请确认您的登录信息：',
-                          content: 'username: ' + user_name + ' | password: ' + pass_word + ' | captcha: ' + captcha_value
-                      });
-                      this.username = user_name;
-                      this.password = pass_word;
-                      this.captcha_val = captcha_value;
+                if (valid) {
+                    this.username = user_name;
+                    this.password = pass_word;
+                    this.captcha_val = captcha_value;
+                    this.$Modal.info({
+                        title: '请确认您的登录信息：',
+                        content: 'username: ' + user_name + ' | password: ' + pass_word + ' | captcha: ' + captcha_value, 
+                        onOk: () => { this.handleClick(); }
+                    });
                   }
               },
               handleGetCaptcha () {
@@ -84,6 +85,7 @@
                           // 保存用户和密码到localStorage
                           localStorage.setItem('username', this.username);
                           localStorage.setItem('password', this.password);
+                          this.$Message.success('Login Success!');  
                           this.$router.push({ path: '/admin_user' });
                       } 
                       else {
