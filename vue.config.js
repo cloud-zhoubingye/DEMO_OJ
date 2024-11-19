@@ -1,4 +1,5 @@
 const { defineConfig } = require('@vue/cli-service')
+const { hostname } = require('os')
 const path = require('path')
 
 const { NODE_ENV, VUE_APP_TITLE = '' } = process.env
@@ -32,10 +33,9 @@ const config = {
   devServer: {
     open: true,
     port: 8080,
-
     proxy: {
       '/api': {
-        target: 'https://localhost:8080',
+        target: 'http://192.168.7.243:8082',
         changeOrigin: true
       }
     }

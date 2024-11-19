@@ -14,6 +14,7 @@ import AdminUser from '@/components/AdminUser.vue'
 import AdminProblem from '@/components/AdminProblemView.vue'
 import AdminAddProblem from '@/components/AdminAddProblem.vue'
 import ResetPassword from '@/components/ResetPassword.vue'
+import ProblemPage from '@/components/ProblemPage.vue'
 
 const routes = [
   {
@@ -90,6 +91,11 @@ const routes = [
     path: '/reset_password',
     name: 'reset_password',
     component: ResetPassword
+  },
+  {
+    path:'/problem_page',
+    name: 'problem_page',
+    component: ProblemPage
   }
 ]
 

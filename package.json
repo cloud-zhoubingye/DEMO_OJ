@@ -12,12 +12,20 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@codemirror/lang-css": "^6.3.0",
+    "@codemirror/lang-html": "^6.4.9",
+    "@codemirror/lang-javascript": "^6.2.2",
     "@vueup/vue-quill": "^1.2.0",
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-vue": "^5.1.12",
+    "axios": "^1.7.7",
+    "codemirror": "^6.0.1",
     "core-js": "^3.8.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
     "view-ui-plus": "^1.1.0",
     "vue": "^3.2.13",
+    "vue-codemirror": "^6.1.1",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
   },

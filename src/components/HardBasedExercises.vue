@@ -105,45 +105,18 @@
                         </RadioGroup>
                         <br>
                         <br>
-                        题目
-                        <br>
-                        <Select v-model="model" style="width:200px">
+                        题目<br><br><br>
+                        <Select v-model="prob" style="width:200px">
                             <Option v-for="item in ProblemList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
-                        <br>
-                        <br>
-                        你的作答
-                        <br>
-                        <div style="border: 1px solid #ccc">
-                            <Toolbar
-                            style="border-bottom: 1px solid #ccc"
-                            :editor="editorRef"
-                            :defaultConfig="toolbarConfig"
-                            :mode="mode"
-                            />
-                            <Editor
-                            style="height: 500px; overflow-y: hidden;"
-                            v-model="valueHtml"
-                            :defaultConfig="editorConfig"
-                            :mode="mode"
-                            @onCreated="handleCreated"
-                            />
-                        </div><br>
-                        <Button type="primary" @click="submit">提交</Button>
+                        <br><br><br>
+                        <Button type="primary" @click="submit">进入</Button>
                     </Content>
                 </Layout>
             </Layout>
         </Layout>
     </div>
-    <Modal
-        v-model="modal"
-        title="Submission Confirmation"
-        @on-ok="ok"
-        @on-cancel="cancel">
-        <p>Question: {{ model }}</p>
-        <p>Language: {{ border }}</p>
-        <p>Programme Implementation: {{ valueHtml }}</p>
-    </Modal>
+
     <Footer> </Footer>
 </template>
 
@@ -166,17 +139,13 @@
                 this.$router.push({ path: '/person_info' });
             },
             submit(){
-                console.log(this.model);    //题目选择
-                console.log(this.border);   //编程语言选择
-                console.log(this.valueHtml);    //作答程序
-                this.modal = true;
-            },
-            ok () {
-                this.$Message.info('Submitted successfully');
-                this.$router.push({ path: '/judge_result' });
-            },
-            cancel () {
-                this.$Message.info('Submission canceled');
+                if (this.prob === '') {
+                    this.$Message.error('Please choose a problem!');
+                    return;
+                }
+                localStorage.setItem('problem_choose', this.prob);
+                this.$Message.info('Choose '+this.prob+' successfully');
+                this.$router.push({ path: '/problem_page' });
             },
         },
         data () {
@@ -209,8 +178,6 @@
 
                 ],
                 model: '',
-                border: 'Java',
-                modal: false,
             }
         }
     }
