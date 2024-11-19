@@ -35,7 +35,7 @@ const config = {
     port: 8080,
     proxy: {
       '/api': {
-        target: 'http://192.168.7.243:8082',
+        target: 'http://loaclhost:8080',
         changeOrigin: true
       }
     }

@@ -94,6 +94,7 @@
                             localStorage.setItem('email', this.email);
                             localStorage.setItem('username', this.username);
                             localStorage.setItem('password', this.password);
+                            localStorage.setItem('isUserLogin', true);
                             this.$router.push({ path: '/success' });
                         }
                     } 

@@ -93,6 +93,12 @@
                           // 保存用户和密码到localStorage
                           localStorage.setItem('username', this.username);
                           localStorage.setItem('password', this.password);
+                          if (localStorage.getItem('resetPasswordAdmin') === 'true') {
+                              localStorage.setItem('isAdminLogin', true);
+                          }
+                          else {
+                              localStorage.setItem('isUserLogin', true);
+                          }
                           this.$router.push({ path: '/success' });
                       } 
                       else {

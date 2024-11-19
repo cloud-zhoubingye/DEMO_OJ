@@ -89,6 +89,7 @@
                         // 保存用户和密码到localStorage
                         localStorage.setItem('username', this.username);
                         localStorage.setItem('password', this.password);
+                        localStorage.setItem('isUserLogin', true);
                         this.$Message.success('Login Success!');
                         this.$router.push({ path: '/success' });
                     } 

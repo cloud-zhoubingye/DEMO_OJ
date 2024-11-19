@@ -85,6 +85,7 @@
                           // 保存用户和密码到localStorage
                           localStorage.setItem('username', this.username);
                           localStorage.setItem('password', this.password);
+                          localStorage.setItem('isAdminLogin', true);
                           this.$Message.success('Login Success!');  
                           this.$router.push({ path: '/admin_user' });
                       } 
@@ -97,6 +98,7 @@
                   }
               },
               handleClickPasswd() {
+                localStorage.setItem('resetPasswordAdmin', true);
                 this.$router.push({ path: '/reset_password' });
             },
           }

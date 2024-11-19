@@ -6,7 +6,6 @@ import LoginSuccess from '@/components/LoginSuccess.vue'
 import HardBasedExercises from '@/components/HardBasedExercises.vue'
 import History from '@/components/History.vue'
 import LoginFailure from '@/components/LoginFailure.vue'
-import JudgeResult from '@/components/JudgeResult.vue'
 import PersonInfo from '@/components/PersonInfo.vue'
 import AdminLogin from '@/components/AdminLogin.vue'
 import Register from '@/components/Register.vue'
@@ -30,8 +29,9 @@ const routes = [
   {
     path: '/categorized_exercises',
     name: 'categorized_exercises',
-    component: MainPage
-  }, 
+    component: MainPage,
+    meta: { requiresUser: true }
+  },
   {
     path: '/success',
     name: 'success',
@@ -40,12 +40,14 @@ const routes = [
   {
     path: '/hard_based_exercises',
     name: 'hard_based_exercises',
-    component: HardBasedExercises
+    component: HardBasedExercises,
+    meta: { requiresUser: true }
   },
   {
     path: '/history',
     name: 'history',
-    component: History
+    component: History,
+    meta: { requiresUser: true }
   },
   {
     path: '/failure',
@@ -53,14 +55,10 @@ const routes = [
     component: LoginFailure
   },
   {
-    path: '/judge_result',
-    name: 'judge_result',
-    component: JudgeResult
-  },
-  {
     path: '/person_info',
     name: 'person_info',
-    component: PersonInfo
+    component: PersonInfo,
+    meta: { requiresUser: true }
   },
   {
     path: '/admin_login',
@@ -75,17 +73,20 @@ const routes = [
   {
     path: '/admin_user',
     name: 'admin_user',
-    component: AdminUser
+    component: AdminUser,
+    meta: { requiresAdmin: true }
   },
   {
     path: '/admin_problem',
     name: 'admin_problem',
-    component: AdminProblem
+    component: AdminProblem,
+    meta: { requiresAdmin: true }
   },
   {
     path: '/admin_add_problem',
     name: 'admin_add_problem',
-    component: AdminAddProblem
+    component: AdminAddProblem,
+    meta: { requiresAdmin: true }
   },
   {
     path: '/reset_password',
@@ -95,7 +96,8 @@ const routes = [
   {
     path:'/problem_page',
     name: 'problem_page',
-    component: ProblemPage
+    component: ProblemPage,
+    meta: { requiresUser: true }
   }
 ]
 
@@ -106,5 +108,27 @@ const router = createRouter({
     return { top: 0 }
   }
 })
+
+router.beforeEach((to, from, next) => {
+  const isUserLoggedIn = localStorage.getItem('isUserLogin') === 'true';
+  const isAdminLoggedIn = localStorage.getItem('isAdminLogin') === 'true';
+
+  if (to.matched.some(record => record.meta.requiresAdmin)) {
+    if (isAdminLoggedIn) {
+      next();
+    } else {
+      next({ name: 'admin_login' }); // Redirect to home if not logged in as admin
+    }
+  } else if (to.matched.some(record => record.meta.requiresUser)) {
+    if (isUserLoggedIn) {
+      next();
+    } else {
+      next({ name: 'login' }); // Redirect to home if not logged in as user
+    }
+  } else {
+    next(); // Always call next() to proceed with the navigation
+  }
+});
+
 
 export default router

@@ -8,7 +8,7 @@
             </div>
         </div>
         <br>
-        <div class="demo-split" style="width: 96%; margin-left: 2%; margin-right: 2%; height: 1200px;">
+        <div class="demo-split" style="width: 96%; margin-left: 2%; margin-right: 2%; height: 1000px;">
             <Split v-model="split">
                 <template #left>
                     <Card style="width:96%; left: 2%; margin-right: 2%; margin-top: 2%;">
@@ -36,40 +36,43 @@
                         <Text>{{ problemCategory }}</Text>
                         <br>
                     </Card>
+                    <Divider style="color: purple;">Result</Divider>
+                    <Card style="width:96%; left: 2%; margin-right: 2%; margin-top: 2%;">
+                        <template #title><h2 style="color: purple;">Judge Result</h2></template>
+                        <h4>Time Cost <Icon type="ios-arrow-dropdown" /></h4>
+                        <Text>{{ timeCost }} ms</Text>
+                        <br><br>
+                        <h4>Memory Cost <Icon type="ios-arrow-dropdown" /></h4>
+                        <Text>{{ memoryCost }} MB</Text>
+                        <br><br>
+                        <h4>Result Score <Icon type="ios-arrow-dropdown" /></h4>
+                        <Text>{{ resultScore }}</Text>
+                        <br><br>
+                        <h4>Information <Icon type="ios-arrow-dropdown" /></h4>
+                        <Text>{{ resultInformation }}</Text>
+                        <br>
+                    </Card>
                 </template>
                 <template #right>
-                    <br>
-                    <div style="margin-left: 25px;">
-                        <Divider style="color: purple;">Settings</Divider>
-                        编程语言
-                        <br>
-                        <RadioGroup v-model="language" >
-                            <Radio label="C++">C++</Radio>
-                            <Radio label="Java">Java</Radio>
-                            <Radio label="Python">Python</Radio>
-                        </RadioGroup>
-                        <br>
-                        <Divider style="color: purple;">Code</Divider>
-                        <Input v-model="code" type="textarea" :autosize="true" placeholder="Enter your code here..." />
-                        <br><br>
-                        <Button type="primary" @click="submitCode">提交</Button>
-                        <Divider style="color: purple;">Result</Divider>
-                        <Card style="width:96%; left: 2%; margin-right: 2%; margin-top: 2%;">
-                            <template #title>Judge Result</template>
-                            <h4>Time Cost <Icon type="ios-arrow-dropdown" /></h4>
-                            <Text>{{ timeCost }} ms</Text>
-                            <br><br>
-                            <h4>Memory Cost <Icon type="ios-arrow-dropdown" /></h4>
-                            <Text>{{ memoryCost }} MB</Text>
-                            <br><br>
-                            <h4>Result Score <Icon type="ios-arrow-dropdown" /></h4>
-                            <Text>{{ resultScore }}</Text>
-                            <br><br>
-                            <h4>Information <Icon type="ios-arrow-dropdown" /></h4>
-                            <Text>{{ resultInformation }}</Text>
-                            <br>
-                        </Card>
-                    </div>
+                        <div style="margin-left: 25px;">
+                            <Divider style="color: purple;">Settings</Divider>
+                            <Card style="width:96%; left: 2%; margin-right: 2%; margin-top: 2%;">
+                                <template #title><h2 style="color: purple;"> Langauge </h2></template>
+                                <RadioGroup v-model="language" >
+                                    <Radio label="C++"> C/C++ </Radio>
+                                    <Radio label="Java"> Java </Radio>
+                                    <Radio label="Python"> Python </Radio>
+                                </RadioGroup>
+                            </Card>
+                            <Divider style="color: purple;">Code</Divider>
+                            <Card style="width:96%; left: 2%; margin-right: 2%; margin-top: 2%;">
+                                <template #title><h2 style="color: purple;"> Answer </h2></template>
+                                <Input v-model="code" type="textarea" :autosize="{minRows: 25,maxRows: 500}" placeholder="Enter your code here..." />
+                                <br><br>
+                                <Button type="primary" @click="submitCode">提交</Button>
+                            </Card>
+                        </div>
+                    
                 </template>
             </Split>
         </div>
@@ -98,11 +101,6 @@
                 resultScore: 0,
                 resultInformation: '',
                 code: '',
-                lan: {
-                    'C++': 0,
-                    'Python': 1,
-                    'Java': 2,
-                }
             }
         },
         methods: {
@@ -122,35 +120,28 @@
                     return;
                 }
 
-                // const postData = {
-                //     prob: this.problemName,
-                //     language: this.language,
-                //     code: this.code
-                // };
-                
                 const postData = {
-                    message: this.code,
-                    choice: this.lan[this.language],
-                    id: 0,
+                    prob: this.problemName,
+                    language: this.language,
+                    code: this.code
                 };
                 axios.post('/api/sendData' , postData, {
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 })
-                    .then(response => {
-                        const data = response.data;
-                        // this.timeCost = data.timeCost;
-                        // this.memoryCost = data.memoryCost;
-                        // this.resultScore = data.resultScore;
-                        // this.resultInformation = data.resultInformation;
-                        this.resultInformation = data.result;
-                        this.$Message.success('Code submitted successfully!');
-                    })
-                    .catch(error => {
-                        this.resultInformation = error;
-                        this.$Message.error('Failed to submit code!');
-                    });
+                .then(response => {
+                    const data = response.data;
+                    this.timeCost = data.timeCost;
+                    this.memoryCost = data.memoryCost;
+                    this.resultScore = data.resultScore;
+                    this.resultInformation = data.resultInformation;
+                    this.$Message.success('Code submitted successfully!');
+                })
+                .catch(error => {
+                    this.resultInformation = error;
+                    this.$Message.error('Failed to submit code!');
+                });
             }
         }
     }
