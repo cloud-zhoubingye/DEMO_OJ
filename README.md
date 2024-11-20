@@ -99,6 +99,18 @@ The system provides user interfaces for both regular users and administrators:
     - Generates detailed error feedback if there are any issues.
 
 
+## Issues to be Addressed
+
+#### 1. Cross-Origin Routing Issues
+Currently, the cross-origin routing issue is unresolved. This can cause problems when the frontend and backend are hosted on different domains or ports, leading to CORS (Cross-Origin Resource Sharing) errors.
+
+**Proposed Solutions**:
+- **Configure a Proxy Server with a Public IP**: Set up a proxy server that has a public IP address. This proxy server will handle the requests from the frontend and forward them to the backend, thus mitigating the CORS issues.
+- **Deploy Frontend and Backend on the Same Device**: Ensure that both the frontend and backend code are hosted on the same device. This can be achieved by using containerization tools like Docker, which allows for easy deployment and management of both services on the same host.
+
+By addressing these issues, we can enhance the robustness and reliability of the Online Judge System, ensuring a seamless experience for users and administrators alike.
+
+
 ## Team and Contributions 
 - **Yunfan Zhang**: Database design and backend development for CRUD operations. 
 - **Liaotian Feng**: Development of the code evaluation engine and backend business logic implementation. 
