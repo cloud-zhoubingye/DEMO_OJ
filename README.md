@@ -108,7 +108,6 @@ Currently, the cross-origin routing issue is unresolved. This can cause problems
 - **Configure a Proxy Server with a Public IP**: Set up a proxy server that has a public IP address. This proxy server will handle the requests from the frontend and forward them to the backend, thus mitigating the CORS issues.
 - **Deploy Frontend and Backend on the Same Device**: Ensure that both the frontend and backend code are hosted on the same device. This can be achieved by using containerization tools like Docker, which allows for easy deployment and management of both services on the same host.
 
-By addressing these issues, we can enhance the robustness and reliability of the Online Judge System, ensuring a seamless experience for users and administrators alike.
 
 
 ## Team and Contributions 
