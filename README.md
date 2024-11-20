@@ -1,5 +1,6 @@
 # Online Judge System (OJS)
 Project of "Software Engineer" course in 24fall, SCU with supervisor Luo.
+__This is the code repositories for front-end code in our programme.__ 
 
 ## Install
 ```shell
@@ -14,7 +15,24 @@ npm run dev
 ## Introduction
 The Online Judge System (OJS) is a comprehensive platform that provides a wide range of programming challenges and an efficient code evaluation mechanism. It supports multiple programming languages and offers user-friendly interfaces for both users and administrators.
   
-__This is the code repositories for front-end code in our programme.__ 
+
+
+## Issues to be Addressed
+
+#### Cross-Origin Routing Issues
+Currently, the cross-origin routing issue is unresolved. This can cause problems when the frontend and backend are hosted on different domains or ports, leading to CORS (Cross-Origin Resource Sharing) errors.
+
+**Proposed Solutions**:
+- **Configure a Proxy Server with a Public IP**: Set up a proxy server that has a public IP address. This proxy server will handle the requests from the frontend and forward them to the backend, thus mitigating the CORS issues.
+- **Deploy Frontend and Backend on the Same Device**: Ensure that both the frontend and backend code are hosted on the same device. This can be achieved by using containerization tools like Docker, which allows for easy deployment and management of both services on the same host.
+
+
+
+## Team and Contributions 
+- **Yunfan Zhang**: Database design and backend development for CRUD operations. 
+- **Liaotian Feng**: Development of the code evaluation engine and backend business logic implementation. 
+- **Bingye Zhou**: Frontend development for user and admin interfaces.
+
 
 ## Features
 
@@ -99,21 +117,6 @@ The system provides user interfaces for both regular users and administrators:
     - Generates detailed error feedback if there are any issues.
 
 
-## Issues to be Addressed
-
-#### 1. Cross-Origin Routing Issues
-Currently, the cross-origin routing issue is unresolved. This can cause problems when the frontend and backend are hosted on different domains or ports, leading to CORS (Cross-Origin Resource Sharing) errors.
-
-**Proposed Solutions**:
-- **Configure a Proxy Server with a Public IP**: Set up a proxy server that has a public IP address. This proxy server will handle the requests from the frontend and forward them to the backend, thus mitigating the CORS issues.
-- **Deploy Frontend and Backend on the Same Device**: Ensure that both the frontend and backend code are hosted on the same device. This can be achieved by using containerization tools like Docker, which allows for easy deployment and management of both services on the same host.
-
-
-
-## Team and Contributions 
-- **Yunfan Zhang**: Database design and backend development for CRUD operations. 
-- **Liaotian Feng**: Development of the code evaluation engine and backend business logic implementation. 
-- **Bingye Zhou**: Frontend development for user and admin interfaces.
 
 ## Conclusion
 The Online Judge System (OJS) aims to provide an extensive range of programming challenges and an efficient evaluation mechanism, supporting multiple programming languages and user roles. The system is designed to cater to users of different skill levels, helping them enhance their coding skills through a structured and engaging platform.
