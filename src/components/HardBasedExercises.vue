@@ -91,56 +91,9 @@
 <script>
     import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
     import Footer from '@/components/Footer.vue'
-import axios from 'axios';
+    import axios from 'axios';
     export default {
         components: { Editor, Toolbar, Footer },
-        methods: {
-            on_select_categorized_exercises() {
-                this.$router.push({ path: '/categorized_exercises' });
-            },
-            on_select_hard_based_exercises() {
-                this.$router.push({ path: '/hard_based_exercises' });
-            },
-            on_select_history(){
-                this.$router.push({ path: '/history' });
-            },
-            on_select_person_info(){
-                this.$router.push({ path: '/person_info' });
-            },
-            submit(){
-                if (this.prob === '') {
-                    this.$Message.error('Please choose a problem!');
-                    return;
-                }
-                localStorage.setItem('problem_choose', this.prob);
-                this.$Message.info('Choose '+this.prob+' successfully');
-                this.$router.push({ path: '/problem_page' });
-            },
-            clickBeginner(){
-                this.hard_choose = 'Beginner';
-                this.$Message.info('Choose Beginner successfully');
-            },
-            clickEasy(){
-                this.hard_choose = 'Easy';
-                this.$Message.info('Choose Easy successfully');
-            },
-            clickIntermediate(){
-                this.hard_choose = 'Intermediate';
-                this.$Message.info('Choose Intermediate successfully');
-            },
-            clickAdvanced(){
-                this.hard_choose = 'Advanced';
-                this.$Message.info('Choose Advanced successfully');
-            },
-            clickExpert(){
-                this.hard_choose = 'Expert';
-                this.$Message.info('Choose Expert successfully');
-            },
-            clickMaster(){
-                this.hard_choose = 'Master';
-                this.$Message.info('Choose Master successfully');
-            }
-        },
         data () {
             return {
                 ProblemList: [
@@ -174,19 +127,74 @@ import axios from 'axios';
                 hard_choose: ''
             }
         },
-        mounted() {
-            //传入hard_choose，获取对应难度的题目列表
-            axios.get('/api/get_hard_based_problems', {
-                params: {
-                    hard_choose: this.hard_choose
+        methods: {
+            get_problem() {
+                axios.get('/api/get_hard_based_problems', {
+                    params: {
+                        hard_choose: this.hard_choose
+                    }
+                })
+                .then(res => {
+                    console.log(res.data);
+                    this.ProblemList = res.data;
+                })
+                .catch(err => {
+                    console.log(err);
+                    this.$Message.error('Failed to get hard based problems!');
+                });
+            },
+            on_select_categorized_exercises() {
+                this.$router.push({ path: '/categorized_exercises' });
+            },
+            on_select_hard_based_exercises() {
+                this.$router.push({ path: '/hard_based_exercises' });
+            },
+            on_select_history(){
+                this.$router.push({ path: '/history' });
+            },
+            on_select_person_info(){
+                this.$router.push({ path: '/person_info' });
+            },
+            submit(){
+                if (this.prob === '') {
+                    this.$Message.error('Please choose a problem!');
+                    return;
                 }
-            }).then(res => {
-                console.log(res.data);
-            }).catch(err => {
-                console.log(err);
-                this.$Message.error('Failed to get hard based problems!');
-            });
-        }
+                localStorage.setItem('problem_choose', this.prob);
+                this.$Message.info('Choose '+this.prob+' successfully');
+                this.$router.push({ path: '/problem_page' });
+            },
+            clickBeginner(){
+                this.hard_choose = 'Beginner';
+                this.$Message.info('Choose Beginner successfully');
+                this.get_problem();
+            },
+            clickEasy(){
+                this.hard_choose = 'Easy';
+                this.$Message.info('Choose Easy successfully');
+                this.get_problem();
+            },
+            clickIntermediate(){
+                this.hard_choose = 'Intermediate';
+                this.$Message.info('Choose Intermediate successfully');
+                this.get_problem();
+            },
+            clickAdvanced(){
+                this.hard_choose = 'Advanced';
+                this.$Message.info('Choose Advanced successfully');
+                this.get_problem();
+            },
+            clickExpert(){
+                this.hard_choose = 'Expert';
+                this.$Message.info('Choose Expert successfully');
+                this.get_problem();
+            },
+            clickMaster(){
+                this.hard_choose = 'Master';
+                this.$Message.info('Choose Master successfully');
+                this.get_problem();
+            }
+        },
     }
 
 </script>
