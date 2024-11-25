@@ -81,6 +81,7 @@
 
 <script>
     import axios from 'axios';
+import { onMounted } from 'vue';
 
     export default {
         data () {
@@ -142,7 +143,28 @@
                     this.resultInformation = error;
                     this.$Message.error('Failed to submit code!');
                 });
-            }
+            },
+        },
+        mounted() {
+            axios.get('/api/getProblem', {
+                params: {
+                    prob: this.problemName
+                }
+            })
+            .then(response => {
+                const data = response.data;
+                this.problemDescription = data.problemDescription;
+                this.problemInputDescription = data.problemInputDescription;
+                this.problemOutputDescription = data.problemOutputDescription;
+                this.problemInputOutputSample = data.problemInputOutputSample;
+                this.timeLimit = data.timeLimit;
+                this.memoryLimit = data.memoryLimit;
+                this.difficultyLevel = data.difficultyLevel;
+                this.problemCategory = data.problemCategory;
+            })
+            .catch(error => {
+                this.$Message.error('Failed to get ' + this.problemName + '\'s information!');
+            });
         }
     }
 </script>

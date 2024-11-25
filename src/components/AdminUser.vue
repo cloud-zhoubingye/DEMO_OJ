@@ -71,7 +71,7 @@
 
                 <template #password="{ row, index }">
                 <Input type="text" v-model="editPassword" v-if="editIndex === index" />
-                <span v-else>{{ row.password }}</span>
+                <span v-else>********</span>
                 </template>
 
                 <template #type="{ row, index }">

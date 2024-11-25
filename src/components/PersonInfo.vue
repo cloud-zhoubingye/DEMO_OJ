@@ -140,6 +140,7 @@
 
 <script>
     import Footer from '@/components/Footer.vue'
+import axios from 'axios';
     export default {
         components: {
             Footer
@@ -287,8 +288,24 @@
                 this.randomWebsiteList = getArrayItems(this.WebsiteList, 5);
             },
         },
-        mounted () {
+        mounted() {
             this.changeLimit();
+            axios.get('/api/getPersonInfo', {
+                params: {
+                    username: this.username
+                }
+            })
+            .then(response => {
+                const data = response.data;
+                this.totalQuestions = data.totalQuestions;
+                this.completedQuestions = data.completedQuestions;
+                this.avg_score = data.avg_score;
+                this.max_score = data.max_score;
+            })
+            .catch(error => {
+                console.log(error);
+                this.$Message.error('Failed to get' + this.username + '\'s person information' + error);
+            });
         }
     }
 </script>

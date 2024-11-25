@@ -53,40 +53,16 @@
             <Layout>
                 <Sider hide-trigger :style="{background: '#fff'}">
                     <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
-                        <Submenu name="1">
+                        <Submenu name="1" >
                             <template #title>
                                 <Icon type="ios-navigate"></Icon>
-                                Beginner
-                            </template>
-                        </Submenu>
-                        <Submenu name="2">
-                            <template #title>
-                                <Icon type="ios-navigate"></Icon>
-                                Easy
-                            </template>
-                        </Submenu>
-                        <Submenu name="3">
-                            <template #title>
-                                <Icon type="ios-navigate"></Icon>
-                                Intermediate
-                            </template>
-                        </Submenu>
-                        <Submenu name="4">
-                            <template #title>
-                                <Icon type="ios-navigate"></Icon>
-                                Advanced
-                            </template>
-                        </Submenu>
-                        <Submenu name="5">
-                            <template #title>
-                                <Icon type="ios-navigate"></Icon>
-                                Expert
-                            </template>
-                        </Submenu>
-                        <Submenu name="6">
-                            <template #title>
-                                <Icon type="ios-navigate"></Icon>
-                                Master
+                                Hard Choose
+                                <MenuItem name="1-1" @click="clickBeginner">Beginner</MenuItem>
+                                <MenuItem name="1-2" @click="clickEasy">Easy</MenuItem>
+                                <MenuItem name="1-3" @click="clickIntermediate">Intermediate</MenuItem>
+                                <MenuItem name="1-4" @click="clickAdvanced">Advanced</MenuItem>
+                                <MenuItem name="1-5" @click="clickExpert">Expert</MenuItem>
+                                <MenuItem name="1-6" @click="clickMaster">Master</MenuItem>
                             </template>
                         </Submenu>
                     </Menu>
@@ -97,14 +73,6 @@
                         <BreadcrumbItem>Hard Based Exercises</BreadcrumbItem>
                     </Breadcrumb>
                     <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">
-                        编程语言<br>
-                        <RadioGroup v-model="border">
-                            <Radio label="Java" border></Radio>
-                            <Radio label="C/C++" border></Radio>
-                            <Radio label="Python" border></Radio>
-                        </RadioGroup>
-                        <br>
-                        <br>
                         题目<br><br><br>
                         <Select v-model="prob" style="width:200px">
                             <Option v-for="item in ProblemList" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -123,6 +91,7 @@
 <script>
     import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
     import Footer from '@/components/Footer.vue'
+import axios from 'axios';
     export default {
         components: { Editor, Toolbar, Footer },
         methods: {
@@ -147,6 +116,30 @@
                 this.$Message.info('Choose '+this.prob+' successfully');
                 this.$router.push({ path: '/problem_page' });
             },
+            clickBeginner(){
+                this.hard_choose = 'Beginner';
+                this.$Message.info('Choose Beginner successfully');
+            },
+            clickEasy(){
+                this.hard_choose = 'Easy';
+                this.$Message.info('Choose Easy successfully');
+            },
+            clickIntermediate(){
+                this.hard_choose = 'Intermediate';
+                this.$Message.info('Choose Intermediate successfully');
+            },
+            clickAdvanced(){
+                this.hard_choose = 'Advanced';
+                this.$Message.info('Choose Advanced successfully');
+            },
+            clickExpert(){
+                this.hard_choose = 'Expert';
+                this.$Message.info('Choose Expert successfully');
+            },
+            clickMaster(){
+                this.hard_choose = 'Master';
+                this.$Message.info('Choose Master successfully');
+            }
         },
         data () {
             return {
@@ -177,8 +170,22 @@
                     }
 
                 ],
-                model: '',
+                prob: '',
+                hard_choose: ''
             }
+        },
+        mounted() {
+            //传入hard_choose，获取对应难度的题目列表
+            axios.get('/api/get_hard_based_problems', {
+                params: {
+                    hard_choose: this.hard_choose
+                }
+            }).then(res => {
+                console.log(res.data);
+            }).catch(err => {
+                console.log(err);
+                this.$Message.error('Failed to get hard based problems!');
+            });
         }
     }
 
