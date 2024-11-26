@@ -14,6 +14,7 @@ import AdminProblem from '@/components/AdminProblemView.vue'
 import AdminAddProblem from '@/components/AdminAddProblem.vue'
 import ResetPassword from '@/components/ResetPassword.vue'
 import ProblemPage from '@/components/ProblemPage.vue'
+import axios from 'axios'
 
 const routes = [
   {
@@ -110,24 +111,53 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const isUserLoggedIn = localStorage.getItem('isUserLogin') === 'true';
-  const isAdminLoggedIn = localStorage.getItem('isAdminLogin') === 'true';
-
-  if (to.matched.some(record => record.meta.requiresAdmin)) {
-    if (isAdminLoggedIn) {
-      next();
+    const username = localStorage.getItem('username');
+    // 如果用户名为空，说明未登录
+    if (to.matched.some(record => record.meta.requiresAdmin)) {
+        if (username == '') {
+            next({ name: 'admin_login' });  // Redirect to home if not logged in as admin
+        } else {
+            axios.get('/api/isAdminLogin', {
+                params: {
+                    username: username
+                }
+            })
+            .then(res => {
+                if (res.isAdminLogin == 'YES') {
+                    next();
+                } else {
+                    next({ name: 'admin_login' });
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                next({ name: 'admin_login' });
+            });
+        }
+    } else if (to.matched.some(record => record.meta.requiresUser)) {
+        if (username == '') {
+            next({ name: 'login' });  // Redirect to home if not logged in as user
+        } else {
+            axios.get('/api/isUserLogin', {
+                params: {
+                    username: username
+                }
+            })
+            .then(res => {
+                if (res.isUserLogin == 'YES') {
+                    next();
+                } else {
+                    next({ name: 'login' });
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                next({ name: 'login' });
+            });
+        }
     } else {
-      next({ name: 'admin_login' }); // Redirect to home if not logged in as admin
+        next(); // Always call next() to proceed with the navigation
     }
-  } else if (to.matched.some(record => record.meta.requiresUser)) {
-    if (isUserLoggedIn) {
-      next();
-    } else {
-      next({ name: 'login' }); // Redirect to home if not logged in as user
-    }
-  } else {
-    next(); // Always call next() to proceed with the navigation
-  }
 });
 
 
