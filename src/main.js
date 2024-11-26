@@ -10,7 +10,7 @@ import '../my-theme/index.less';
 import axios from 'axios'
 
 const app = createApp(App)
-axios.defaults.baseURL = 'http://loaclhost:8080'
+axios.defaults.baseURL = 'http://localhost:8080'
 app.use(store)
   .use(router)
   .use(ViewUIPlus)
