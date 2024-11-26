@@ -97,6 +97,7 @@
 <script>
     import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
     import Footer from '@/components/Footer.vue'
+import axios from 'axios';
     export default {
         components: { Editor, Toolbar, Footer },
         data () {
@@ -156,6 +157,16 @@
                 editPassword: '',  // 第三列输入框
             }
         },
+        mounted() {
+            axios.get('/api/userManagement')
+                .then(response => {
+                    this.data = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.$Message.error('Failed to get user list data');
+                });
+        },
         methods: {
             on_select_categorized_exercises() {
                 this.$router.push({ path: '/admin_user' });
@@ -183,6 +194,14 @@
                 this.data[index].type = this.editType;
                 this.data[index].password = this.editPassword;
                 this.editIndex = -1;
+                axios.post('/api/userManagement', this.data[index])
+                    .then(response => {
+                        this.$Message.success('Save successfully');
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        this.$Message.error('Failed to save user data');
+                    });
             },
         },
     }

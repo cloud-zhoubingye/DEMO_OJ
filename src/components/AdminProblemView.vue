@@ -27,6 +27,16 @@
     margin-left: 670px;
     color: #fff;
 }
+.layout-content1{
+    background: #fff;
+    min-height: 60px;
+    line-height: 60px;
+}
+.layout-sider1{
+    background: #fff;
+    min-height: 60px;
+    line-height: 60px;
+}
 .demo-split{
     height: 200px;
     border: 1px solid #dcdee2;
@@ -72,7 +82,16 @@
                 </Select>
                 <br><br>
                 <Card style="width:90%; left: 5%;">
-                    <template #title><h1 style="color: blueviolet;">{{ currentChoose }}</h1></template>
+                    <template #title>
+                        <Layout>
+                            <Content class="layout-content1">
+                                <h1 style="color: blueviolet;">{{ currentChoose }}</h1>
+                            </Content>
+                            <Sider class="layout-sider1" hide-trigger style="background-color: #fff;">
+                                <Button type="primary" style="width: 100px; height: 35px; font-size: large;" @click="clickShow">Show</Button>
+                            </Sider>
+                        </Layout>                      
+                    </template>
                     <h2>Problem Description <Icon type="ios-chatbubbles-outline" /></h2>
                     <br>
                     <Paragraph v-model="problemDescription" editable />
@@ -122,6 +141,7 @@
 <script>
     import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
     import Footer from '@/components/Footer.vue'
+import axios from 'axios';
     export default {
         components: { Editor, Toolbar, Footer },
         data () {
@@ -240,6 +260,17 @@
                 timeLimit: 2000,
             }
         },
+        mounted() {
+            axios.get('/api/problems_list')
+                .then(response => {
+                    console.log(response.data);
+                    this.probList = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.$Message.error('Failed to get problems list');
+                });
+        },
         methods: {
             on_select_categorized_exercises() {
                 this.$router.push({ path: '/admin_user' });
@@ -268,6 +299,63 @@
                 this.data[index].password = this.editPassword;
                 this.editIndex = -1;
             },
+            clickShow() {
+                if (this.currentChoose == 'Problem: None') {
+                    this.$Modal.error({
+                        title: 'Show Error !',
+                        content: 'Please choose a problem index first.'
+                    });
+                } 
+                else {
+                    axios.get('/api/show_problem_detail', {
+                        params: {
+                            problem_name: this.currentChoose
+                        }
+                    })
+                    .then(response => {
+                        console.log(response.data);
+                        this.problemDescription = response.data.problemDescription;
+                        this.problemInputDescription = response.data.problemInputDescription;
+                        this.problemOutputDescription = response.data.problemOutputDescription;
+                        this.problemInputOutputSample = response.data.problemInputOutputSample;
+                        this.timeLimit = response.data.timeLimit;
+                        this.memoryLimit = response.data.memoryLimit;
+                        this.difficultyLevel = response.data.difficultyLevel;
+                        this.problemCategory = response.data.problemCategory;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        this.$Message.error('Failed to get problem details');
+                    });
+                }
+            },
+            saveProblem() {
+                axios.post('/api/save_problem', {
+                    problem_name: this.currentChoose,
+                    problemDescription: this.problemDescription,
+                    problemInputDescription: this.problemInputDescription,
+                    problemOutputDescription: this.problemOutputDescription,
+                    problemInputOutputSample: this.problemInputOutputSample,
+                    timeLimit: this.timeLimit,
+                    memoryLimit: this.memoryLimit,
+                    difficultyLevel: this.difficultyLevel,
+                    problemCategory: this.problemCategory
+                })
+                .then(response => {
+                    console.log(response.data);
+                    this.$Modal.success({
+                        title: 'Save Successfully !',
+                        content: 'Problem has been saved successfully.'
+                    });
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.$Modal.error({
+                        title: 'Save Error !',
+                        content: 'Failed to save problem.'
+                    });
+                });
+            },
             clickSubmit() {
                 if (this.currentChoose == 'Problem: None') {
                     this.$Modal.error({
@@ -287,9 +375,11 @@
                                   <p>内存限制：${this.memoryLimit}</p>
                                   <p>难度等级：${this.difficultyLevel}</p>
                                   <p>题目类别：${this.problemCategory}</p>`,
-                        onOk: () => { this.$Message.success('Submit successfully!'); }
+                        onOk: () => { 
+                            this.$Message.success('Submit successfully!');
+                            this.saveProblem(); 
+                        }
                     });
-
                 }
             }
         },

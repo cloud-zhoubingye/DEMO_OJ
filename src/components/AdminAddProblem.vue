@@ -140,6 +140,7 @@
 
 <script>
     import Footer from '@/components/Footer.vue'
+import axios from 'axios';
     export default {
         components: { Footer },
         data () {
@@ -292,8 +293,18 @@
                 memoryLimitInput: 256,
                 difficultyLevelInput: 'Easy',
                 problemCategoryInput: 'Data Structure',
-
             }
+        },
+        mounted() {
+            axios.get('/api/problem_detail')
+            .then(response => {
+                console.log(response.data);
+                this.data = response.data;
+            })
+            .catch(error => {
+                console.log(error);
+                this.$Message.error('Failed to fetch problem data from server!');
+            });
         },
         methods: {
             on_select_categorized_exercises() {
@@ -313,6 +324,21 @@
             },
             remove (index) {
                 this.data.splice(index, 1);
+                axios.post('/api/problem_delete', { params: { id: index } })
+                .then(response => {
+                    console.log(response.data);
+                    this.$Modal.success({
+                        title: 'Delete Successfully !',
+                        content: 'Problem has been delete successfully.'
+                    })
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.$Modal.error({
+                        title: 'Delete Failed !',
+                        content: 'Failed to delete problem from server.'
+                    })
+                });
             },
             clickSubmitInput() {
                 this.$Modal.info(
@@ -328,17 +354,6 @@
                     this.$Message.error('Please fill in all the fields of a problem !');
                     return;
                 }
-                this.data.push({
-                    name: this.problemNameInput,
-                    description: this.problemDescriptionInput,
-                    difficulty: this.difficultyLevelInput,
-                    category: this.problemCategoryInput,
-                    inputDescription: this.problemInputDescriptionInput,
-                    outputDescription: this.problemOutputDescriptionInput,
-                    inputOutputSample: this.problemInputOutputSampleInput,
-                    timeLimit: this.timeLimitInput,
-                    memoryLimit: this.memoryLimitInput,
-                });
                 this.problemNameInput = '';
                 this.problemDescriptionInput = '';
                 this.problemInputDescriptionInput = '';
@@ -348,7 +363,42 @@
                 this.memoryLimitInput = 256;
                 this.difficultyLevelInput = 'Easy';
                 this.problemCategoryInput = 'Data Structure';
-                this.$Message.success('Problem Added Successfully!');
+                axios.post('/api/add_new_problem', {
+                    name: this.problemNameInput,
+                    description: this.problemDescriptionInput,
+                    difficulty: this.difficultyLevelInput,
+                    category: this.problemCategoryInput,
+                    inputDescription: this.problemInputDescriptionInput,
+                    outputDescription: this.problemOutputDescriptionInput,
+                    inputOutputSample: this.problemInputOutputSampleInput,
+                    timeLimit: this.timeLimitInput,
+                    memoryLimit: this.memoryLimitInput,
+                })
+                .then(response => {
+                    console.log(response.data);
+                    this.data.push({
+                        name: this.problemNameInput,
+                        description: this.problemDescriptionInput,
+                        difficulty: this.difficultyLevelInput,
+                        category: this.problemCategoryInput,
+                        inputDescription: this.problemInputDescriptionInput,
+                        outputDescription: this.problemOutputDescriptionInput,
+                        inputOutputSample: this.problemInputOutputSampleInput,
+                        timeLimit: this.timeLimitInput,
+                        memoryLimit: this.memoryLimitInput,
+                    });
+                    this.$Modal.success({
+                        title: 'Add Successfully !',
+                        content: 'Problem has been added successfully.'
+                    })
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.$Modal.error({
+                        title: 'Add Failed !',
+                        content: 'Failed to add problem to server.'
+                    })
+                });
             }
         },
     }
