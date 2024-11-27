@@ -25,7 +25,7 @@
   
   <script>
       import Footer from '@/components/Footer.vue'
-  import { Button, Email, Icon, Time } from 'view-ui-plus';
+import axios from 'axios';
       export default {
           components: {
               Footer
@@ -78,11 +78,11 @@
                 this.captcha = 'captcha' + Math.floor(Math.random() * 1000) % 20 + '.jpg';
               },
               handleClick() {
-                  console.log(this.username);
-                  console.log(this.password);
-                  console.log(this.email);
-                  console.log(this.captcha_val);
-                  
+                    console.log(this.username);
+                    console.log(this.password);
+                    console.log(this.email);
+                    console.log(this.captcha_val);
+                    
                     if (this.captcha_val == this.captcha_val_dict[this.captcha]) {
                         if (this.password != this.passwordConfirm) {
                             // 休息一秒钟
@@ -90,12 +90,30 @@
                             this.$router.push({ path: '/failure' });
                         }
                         else {
-                            // 保存用户和密码到localStorage
-                            localStorage.setItem('email', this.email);
-                            localStorage.setItem('username', this.username);
-                            localStorage.setItem('password', this.password);
-                            localStorage.setItem('isUserLogin', true);
-                            this.$router.push({ path: '/success' });
+                            axios.post('api/register', {
+                                email: this.email,
+                                username: this.username,
+                                password: this.password
+                            })
+                            .then(function (response) {
+                                if (response.data == 'success') {
+                                    this.$Message.success('Register Success');
+                                    // 保存用户和密码到localStorage
+                                    localStorage.setItem('email', this.email);
+                                    localStorage.setItem('username', this.username);
+                                    localStorage.setItem('password', this.password);
+                                    localStorage.setItem('isUserLogin', true);
+                                    this.$router.push({ path: '/success' });
+                                }
+                                else {
+                                    this.$Message.error('Register Failure');
+                                    this.$router.push({ path: '/failure' });
+                                }
+                            })
+                            .catch(function (error) {
+                                this.$Message.error('Register Failure');
+                                this.$router.push({ path: '/failure' });
+                            });
                         }
                     } 
                     else {
