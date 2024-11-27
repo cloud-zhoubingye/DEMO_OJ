@@ -58,6 +58,7 @@
 </template>
 <script>
     import Footer from '@/components/Footer.vue'
+import axios from 'axios';
     export default {
         components: {
             Footer
@@ -109,6 +110,16 @@
                     }
                 ]
             }
+        },
+        mounted() {
+            axios.get('/api/history')
+                .then(response => {
+                    this.data = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.$Message.error('Get history failed');
+                });
         },
         methods: {
             on_select_categorized_exercises() {

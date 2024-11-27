@@ -26,6 +26,8 @@
   
   <script>
       import Footer from '@/components/Footer.vue'
+import axios from 'axios';
+import { response } from 'express';
       export default {
           components: {
               Footer
@@ -77,25 +79,40 @@
                 this.captcha = 'captcha' + Math.floor(Math.random() * 1000) % 20 + '.jpg';
               },
               handleClick() {
-                  console.log(this.username);
-                  console.log(this.password);
-                  
-                  if (this.captcha_val == this.captcha_val_dict[this.captcha]) {
-                      if (this.username == 'Bingye Zhou' && this.password == '123456') {
-                          // 保存用户和密码到localStorage
-                          localStorage.setItem('username', this.username);
-                          localStorage.setItem('password', this.password);
-                          localStorage.setItem('isAdminLogin', true);
-                          this.$Message.success('Login Success!');  
-                          this.$router.push({ path: '/admin_user' });
-                      } 
-                      else {
-                          this.$router.push({ path: '/failure' });
-                      }
-                  } 
-                  else {
-                      this.$router.push({ path: '/failure' });
-                  }
+                console.log(this.username);
+                console.log(this.password);
+                
+                if (this.captcha_val == this.captcha_val_dict[this.captcha]) {
+                    axios.post('/api/admin_login', {
+                        username: this.username,
+                        password: this.password
+                    })
+                    .then(response => {
+                        console.log(response);
+                        if (response.data == 'success') {
+                            this.$Message.success('Login Success!');  
+                            this.$router.push({ path: '/admin_user' });
+                            // 保存用户和密码到localStorage
+                            localStorage.setItem('username', this.username);
+                            localStorage.setItem('password', this.password);
+                            this.$Message.success('Login Success!');  
+                            this.$router.push({ path: '/admin_user' });
+                        }
+                        else {
+                            this.$router.push({ path: '/failure' });
+                            this.$Message.error('Username or Password Error!');
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        this.$Message.error('Login failed');
+                        this.$router.push({ path: '/failure' });
+                    });
+                }
+                else {
+                    this.$Message.error('Error Captcha!');
+                    this.$router.push({ path: '/failure' });
+                }
               },
               handleClickPasswd() {
                 localStorage.setItem('resetPasswordAdmin', true);
