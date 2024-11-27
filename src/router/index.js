@@ -115,7 +115,7 @@ router.beforeEach((to, from, next) => {
     // 如果用户名为空，说明未登录
     if (to.matched.some(record => record.meta.requiresAdmin)) {
         if (username == '') {
-            next({ name: 'admin_login' });  // Redirect to home if not logged in as admin
+            next({ name: 'admin_login' });
         } else {
             axios.get('/api/isAdminLogin', {
                 params: {
@@ -136,7 +136,7 @@ router.beforeEach((to, from, next) => {
         }
     } else if (to.matched.some(record => record.meta.requiresUser)) {
         if (username == '') {
-            next({ name: 'login' });  // Redirect to home if not logged in as user
+            next({ name: 'login' });
         } else {
             axios.get('/api/isUserLogin', {
                 params: {
