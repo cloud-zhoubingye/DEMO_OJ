@@ -89,7 +89,7 @@ import { response } from 'express';
                     })
                     .then(response => {
                         console.log(response);
-                        if (response.data == 'success') {
+                        if (response.result == 'success') {
                             this.$Message.success('Login Success!');  
                             this.$router.push({ path: '/admin_user' });
                             // 保存用户和密码到localStorage

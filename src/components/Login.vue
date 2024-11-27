@@ -83,22 +83,28 @@
             handleClick() {
                 console.log(this.username);
                 console.log(this.password);
-                
                 if (this.captcha_val == this.captcha_val_dict[this.captcha]) {
-                    if (this.username == 'Bingye Zhou' && this.password == '123456') {
-                        // 保存用户和密码到localStorage
-                        localStorage.setItem('username', this.username);
-                        localStorage.setItem('password', this.password);
-                        localStorage.setItem('isUserLogin', true);
-                        this.$Message.success('Login Success!');
-                        this.$router.push({ path: '/success' });
-                    } 
-                    else {
-                        this.$router.push({ path: '/failure' });
-                    }
+                    axios.post('/api/admin_login', {
+                        username: this.username,
+                        password: this.password
+                    })
+                    .then(response => {
+                        if (response.result == 'success') {
+                            localStorage.setItem('username', this.username);
+                            localStorage.setItem('password', this.password);
+                            localStorage.setItem('isUserLogin', true);
+                            this.$Message.success('Login Success!');
+                            this.$router.push({ path: '/success' });
+                        } 
+                        else {
+                            this.$router.push({ path: '/failure' });
+                            this.$Message.error('Username or Password Error!');
+                        }
+                    })
                 } 
                 else {
                     this.$router.push({ path: '/failure' });
+                    this.$Message.error('Captcha Error!');
                 }
             },
             handleClickRegister() {
