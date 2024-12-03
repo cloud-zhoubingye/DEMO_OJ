@@ -1,5 +1,5 @@
 # Online Judge System (OJS)
-Project of "Software Engineer" course in 24fall, SCU with supervisor Luo.
+Project of "Software Engineer" course in 24fall, SCU with supervisor Luo.  
 __This is the code repositories for front-end code in our programme.__ 
 
 ## Install
