@@ -90,20 +90,15 @@ import axios from 'axios';
                             this.$router.push({ path: '/failure' });
                         }
                         else {
-                            axios.post('api/register', {
+                            axios.post('/api/register', {
                                 email: this.email,
                                 username: this.username,
                                 password: this.password
                             })
                             .then(function (response) {
-                                if (response.data == 'success') {
+                                if (response.result == 'success') {
                                     this.$Message.success('Register Success');
-                                    // 保存用户和密码到localStorage
-                                    localStorage.setItem('email', this.email);
-                                    localStorage.setItem('username', this.username);
-                                    localStorage.setItem('password', this.password);
-                                    localStorage.setItem('isUserLogin', true);
-                                    this.$router.push({ path: '/success' });
+                                    this.$router.push({ path: '/login' });
                                 }
                                 else {
                                     this.$Message.error('Register Failure');

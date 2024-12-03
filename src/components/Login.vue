@@ -89,7 +89,7 @@
                         password: this.password
                     })
                     .then(response => {
-                        if (response.result == 'success') {
+                        if (response.data.result == 'success') {
                             localStorage.setItem('username', this.username);
                             localStorage.setItem('password', this.password);
                             localStorage.setItem('isUserLogin', true);

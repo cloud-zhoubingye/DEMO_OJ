@@ -3,29 +3,29 @@
       <Icon type="ios-home" size="80"></Icon>
       <span> Reset Password On OJS </span> 
     </h1>
-    <br><br><br><br>
+    <br><br><br>
     <div class="demo-login">
           <Login @on-submit="handleSubmitReset" >
               <Email name="email"/>
               <UserName name="username" />
-              <Password name="password" />
-              <Password name="passwordAgain" />
-              <Captcha class="demo-login-captcha" name="captcha" :count-down="4" @on-get-captcha="handleGetCaptcha">
+              <Password name="password" placeholder="请输入新密码（至少六位）"/>
+              <Password name="passwordAgain" placeholder="请再次输入以确认密码"/>
+              <Captcha name="captcha_email" :field="['email']" :count-down="30" @on-get-captcha="handleGetEmailCaptcha" placeholder="请输入邮箱验证码"/>
+              <Captcha class="demo-login-captcha" name="captcha" :count-down="4" @on-get-captcha="handleGetCaptcha" placeholder="请输入图形验证码">
                   <template #text>
                     <img :src="'./captcha/' + this.captcha" />
                   </template>
               </Captcha>
-              <Submit @click="handleClickReset" />
+              <Submit />
           </Login>
-          <br><br>
     </div>
-    <br><br><br><br>
+    <br><br>
     <Footer> </Footer>
   </template>
   
   <script>
       import Footer from '@/components/Footer.vue'
-  
+      import axios from 'axios';
       export default {
           components: {
               Footer
@@ -38,6 +38,7 @@
                   password: '',
                   passwordAgain: '',
                   captcha_val: '',
+                  email_captcha: '',
                   captcha_val_dict: {
                       'captcha0.jpg': 'a2af',
                       'captcha1.jpg': 'n5wn',
@@ -63,48 +64,61 @@
               }
           },
           methods: {
-              handleSubmitReset (valid, { email: mail, username: user_name, password: pass_word, passwordAgain: password_Again, captcha: captcha_value }) {
+              handleSubmitReset (valid, { email: mail, username: user_name, password: pass_word, passwordAgain: password_Again, captcha_email: email_captcha, captcha: captcha_value }) {
                   if (valid) {
                       this.email = mail;
                       this.username = user_name;
                       this.password = pass_word;
                       this.passwordAgain = password_Again;
                       this.captcha_val = captcha_value;
+                      this.email_captcha = email_captcha;
                       this.$Modal.info({
                           title: '请确认您的更改密码信息：',
-                          content: 'email: ' + mail + ' | username: ' + user_name + ' | password: ' + pass_word + ' | passwordAgain: ' + password_Again + ' | captcha: ' + captcha_value
+                          content: 'email: ' + mail + ' | username: ' + user_name + ' | password: ' + pass_word + ' | passwordAgain: ' + password_Again + ' | captcha: ' + captcha_value + ' | email_captcha: ' + email_captcha,
+                            onOk: () => {
+                                this.handleClickReset();
+                            }
                       });
                   }
               },
               handleGetCaptcha () {
                 this.captcha = 'captcha' + Math.floor(Math.random() * 1000) % 20 + '.jpg';
               },
+              handleGetEmailCaptcha() {
+3
+                this.$Message.info('获取验证码成功');
+              },
               handleClickReset() {
-                  console.log(this.username);
-                  console.log(this.password);
-                  
                   if (this.password != this.passwordAgain) {
                       this.$Message.error('两次输入的密码不一致');
                       this.$router.push({ path: '/failure' });
                   }
-
+                  if (this.password.length < 6) {
+                      this.$Message.error('密码长度不能小于6位');
+                      this.$router.push({ path: '/failure' });
+                  }
                   if (this.captcha_val == this.captcha_val_dict[this.captcha]) {
-                      if (this.username == 'Bingye Zhou' && this.email == 'xxc8865@gmail.com') {
-                          // 保存用户和密码到localStorage
-                          localStorage.setItem('username', this.username);
-                          localStorage.setItem('password', this.password);
-                          if (localStorage.getItem('resetPasswordAdmin') === 'true') {
-                              localStorage.setItem('isAdminLogin', true);
+                      axios.get('/api/reset_password', {
+                          params: {
+                            email: this.email,
+                            username: this.username,
+                            password: this.password,
+                            email_captcha: this.email_captcha,
                           }
-                          else {
-                              localStorage.setItem('isUserLogin', true);
+                      }).then((response) => {
+                          console.log(response);
+                          if (response.result === 'success') {
+                              this.$Message.success('密码重置成功');
+                              this.$router.push({ path: '/login' });
+                          } else {
+                              this.$Message.error('密码重置失败');
+                              this.$router.push({ path: '/failure' });
                           }
-                          this.$router.push({ path: '/success' });
-                      } 
-                      else {
-                          this.$Message.error('用户名或密码错误');
+                      }).catch((error) => {
+                          console.log(error);
+                          this.$Message.error('后端接口调用失败');
                           this.$router.push({ path: '/failure' });
-                      }
+                      });
                   } 
                   else {
                       this.$Message.error('验证码错误');
