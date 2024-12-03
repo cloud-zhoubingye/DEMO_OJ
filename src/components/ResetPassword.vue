@@ -85,8 +85,21 @@
                 this.captcha = 'captcha' + Math.floor(Math.random() * 1000) % 20 + '.jpg';
               },
               handleGetEmailCaptcha() {
-3
-                this.$Message.info('获取验证码成功');
+                    axios.get('/api/email_captcha', {
+                        params: {
+                            email: this.email,
+                        }
+                    }).then((response) => {
+                        console.log(response);
+                        if (response.result === 'success') {
+                            this.$Message.info('获取验证码成功');
+                        } else {
+                            this.$Message.error('获取验证码失败');
+                        }
+                    }).catch((error) => {
+                        console.log(error);
+                        this.$Message.error('后端接口调用失败');
+                    });
               },
               handleClickReset() {
                   if (this.password != this.passwordAgain) {
