@@ -110,55 +110,55 @@ const router = createRouter({
   }
 })
 
-// router.beforeEach((to, from, next) => {
-//     const username = localStorage.getItem('username');
-//     // 如果用户名为空，说明未登录
-//     if (to.matched.some(record => record.meta.requiresAdmin)) {
-//         if (username == '') {
-//             next({ name: 'admin_login' });
-//         } else {
-//             axios.get('/api/isAdminLogin', {
-//                 params: {
-//                     username: username
-//                 }
-//             })
-//             .then(res => {
-//                 if (res.isAdminLogin == 'YES') {
-//                     next();
-//                 } else {
-//                     next({ name: 'admin_login' });
-//                 }
-//             })
-//             .catch(err => {
-//                 console.log(err);
-//                 next({ name: 'admin_login' });
-//             });
-//         }
-//     } else if (to.matched.some(record => record.meta.requiresUser)) {
-//         if (username == '') {
-//             next({ name: 'login' });
-//         } else {
-//             axios.get('/api/isUserLogin', {
-//                 params: {
-//                     username: username
-//                 }
-//             })
-//             .then(res => {
-//                 if (res.isUserLogin == 'YES') {
-//                     next();
-//                 } else {
-//                     next({ name: 'login' });
-//                 }
-//             })
-//             .catch(err => {
-//                 console.log(err);
-//                 next({ name: 'login' });
-//             });
-//         }
-//     } else {
-//         next(); // Always call next() to proceed with the navigation
-//     }
-// });
+router.beforeEach((to, from, next) => {
+    const username = localStorage.getItem('username');
+    // 如果用户名为空，说明未登录
+    if (to.matched.some(record => record.meta.requiresAdmin)) {
+        if (username == null || username == '') {
+            next({ name: 'admin_login' });
+        } else {
+            axios.get('/api/isAdminLogin', {
+                params: {
+                    username: username
+                }
+            })
+            .then(res => {
+                if (res.result == 'success') {
+                    next();
+                } else {
+                    next({ name: 'admin_login' });
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                next({ name: 'admin_login' });
+            });
+        }
+    } else if (to.matched.some(record => record.meta.requiresUser)) {
+        if (username == null || username == '') {
+            next({ name: 'login' });
+        } else {
+            axios.get('/api/isUserLogin', {
+                params: {
+                    username: username
+                }
+            })
+            .then(res => {
+                if (res.result == 'success') {
+                    next();
+                } else {
+                    next({ name: 'login' });
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                next({ name: 'login' });
+            });
+        }
+    } else {
+        next(); // Always call next() to proceed with the navigation
+    }
+});
 
 
 export default router

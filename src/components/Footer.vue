@@ -1,5 +1,7 @@
 <template>
     <GlobalFooter :links="links" :copyright="copyright" />
+    <Button type="primary" @click="exit" style="width: 10%; margin-left: 45%;">Exit Login</Button>
+    <br><br><br>
 </template>
 <script>
     export default {
@@ -26,6 +28,12 @@
                     }
                 ],
                 copyright: '24Fall SE_lab F&Z&Z'
+            }
+        },
+        methods: {
+            exit () {
+                localStorage.removeItem('username')
+                this.$router.push('/')
             }
         }
     }

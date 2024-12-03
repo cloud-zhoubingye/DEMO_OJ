@@ -34,90 +34,209 @@ Currently, the cross-origin routing issue is unresolved. This can cause problems
 - **Bingye Zhou**: Frontend development for user and admin interfaces.
 
 
-## Features
+## Interface
+#### 1. Fetch Problem Details
+- **URL**: `/api/problem_detail`
+- **Method**: `GET`
+- **Incoming Parameters**: None
+- **Return Parameters**: `data` (list of problem details)
 
-#### 1. Diverse Programming Challenges
-The system covers basic algorithms and data structure problems, ensuring a wide variety of challenges. The types of problems supported include:
-- **Number Theory**: Polynomial roots, factorization, GCD and LCM, modular arithmetic
-- **Combinatorics**: Permutations, subsets, order of permutations, next permutation
-- **Graph Theory**: Depth-first search, breadth-first search, shortest path algorithms, minimum spanning tree, maximum flow algorithms
-- **Dynamic Programming**: General dynamic programming, greedy algorithms, state compression
-- **String Processing**: String matching, string operations, string transformations
-- **Computational Geometry**: Convex hull algorithms, closest pair of points, line segment intersection, point-to-segment distance
-- **Data Structures**: Stacks and queues, linked lists, trees and binary trees, hash tables, heaps and priority queues
-- **Sorting**: Bubble sort, selection sort, insertion sort, quick sort, merge sort
+#### 2. Delete Problem
+- **URL**: `/api/problem_delete`
+- **Method**: `POST`
+- **Incoming Parameters**: 
+  - `params`: { `id`: index }
+- **Return Parameters**: `response.data` (status of the delete operation)
 
-The system supports problems of varying difficulty levels, allowing users to practice by problem type or difficulty level.
+#### 3. Add New Problem
+- **URL**: `/api/add_new_problem`
+- **Method**: `POST`
+- **Incoming Parameters**:
+  - `name`: `this.problemNameInput`
+  - `description`: `this.problemDescriptionInput`
+  - `difficulty`: `this.difficultyLevelInput`
+  - `category`: `this.problemCategoryInput`
+  - `inputDescription`: `this.problemInputDescriptionInput`
+  - `outputDescription`: `this.problemOutputDescriptionInput`
+  - `inputOutputSample`: `this.problemInputOutputSampleInput`
+  - `timeLimit`: `this.timeLimitInput`
+  - `memoryLimit`: `this.memoryLimitInput`
+- **Return Parameters**: `response.data` (status of the add operation)
 
-#### 2. Efficient and Accurate Code Evaluation
-The system supports multiple programming languages such as Java, Python, and C/C++. The evaluation mechanism quickly compiles and runs user-submitted code, comparing the results with standard answers. Detailed error messages help users identify and fix issues in their code. Evaluation results include:
-- Execution time
-- Memory usage
-- Number of test cases passed
+#### 4. Admin Login
+- **URL**: `/api/admin_login`
+- **Method**: `POST`
+- **Incoming Parameters**:
+  - `username`: this.username
+  - `password`: this.password
+- **Return Parameters**: `response` (status of the login operation)
 
-#### 3. Multi-role User Interface
-The system provides user interfaces for both regular users and administrators:
-- **User Interface**: Allows users to browse problems, submit code, and view evaluation results. Users can also view their submission history and progress statistics.
-- **Admin Interface**: Provides robust management functions, enabling administrators to add, delete, and edit problems, manage user accounts, and modify user passwords. Administrators can maintain the system and ensure the problem database is up-to-date and relevant.
+#### 5. Fetch Captcha
+- **URL**: `/api/getCaptcha`
+- **Method**: `GET`
+- **Incoming Parameters**: None
+- **Return Parameters**: `captcha` (randomly generated captcha image)
 
+#### 6. Reset Password
+- **URL**: `/api/reset_password`
+- **Method**: `POST`
+- **Incoming Parameters**:
+  - `resetPasswordAdmin`: true
+- **Return Parameters**: `response` (status of the password reset operation)
 
-## Functional Modules
+#### 7. Fetch Problems List
+- **URL**: `/api/problems_list`
+- **Method**: `GET`
+- **Incoming Parameters**: None
+- **Return Parameters**: `probList` (list of problem details)
 
-#### Module 1: User Management
-- **Functions**: Manages user registration, login, and information modification.
-- **Input Items**:
-  - Username
-  - Password
-  - Email
-  - Verification code (for registration and password reset)
-- **Output Items**:
-  - User registration success/failure message
-  - Login success/failure message
-  - Information modification result
-- **Related Algorithms**:
-  - Hashing algorithm: Encrypts user passwords for storage.
-  - Authentication process: Verifies whether the entered username and password match the stored data.
-  - Captcha verification: Ensures the entered captcha code is correct.
+#### 8. Show Problem Detail
+- **URL**: `/api/show_problem_detail`
+- **Method**: `GET`
+- **Incoming Parameters**:
+  - `problem_name`: this.currentChoose
+- **Return Parameters**: 
+  - `problemDescription`
+  - `problemInputDescription`
+  - `problemOutputDescription`
+  - `problemInputOutputSample`
+  - `timeLimit`
+  - `memoryLimit`
+  - `difficultyLevel`
+  - `problemCategory`
 
-#### Module 2: Problem Management
-- **Functions**: Manages the addition, modification, deletion, and browsing of problems.
-- **Input Items**:
-  - Problem title
-  - Problem description
-  - Input/output format
-  - Sample input/output
-  - Difficulty level
-  - Problem type
-- **Output Items**:
-  - New problem result
-  - Problem modification result
-  - Deletion confirmation
-  - Problem list and detailed information
-- **Related Algorithms**:
-  - Problem classification algorithm: Categorizes problems by type and difficulty for storage and retrieval.
-  - CRUD operations: Performs create, read, update, delete operations on the problem database.
+#### 9. Save Problem
+- **URL**: `/api/save_problem`
+- **Method**: `POST`
+- **Incoming Parameters**:
+  - `problem_name`: this.currentChoose
+  - `problemDescription`: this.problemDescription
+  - `problemInputDescription`: this.problemInputDescription
+  - `problemOutputDescription`: this.problemOutputDescription
+  - `problemInputOutputSample`: this.problemInputOutputSample
+  - `timeLimit`: this.timeLimit
+  - `memoryLimit`: this.memoryLimit
+  - `difficultyLevel`: this.difficultyLevel
+  - `problemCategory`: this.problemCategory
+- **Return Parameters**: `response` (status of the save operation)
 
-#### Module 3: Code Submission and Evaluation
-- **Functions**: Allows users to select problems, write code, and submit for evaluation. The system compiles, runs, and evaluates the submitted code.
-- **Input Items**:
-  - Selected problem ID
-  - Selected programming language (e.g., Java, Python, C/C++)
-  - Code content written by the user
-- **Output Items**:
-  - Evaluation result (passed/failed)
-  - Execution time
-  - Memory usage
-  - Error information (if any)
-- **Related Algorithms**:
-  - Code compilation and execution: Uses the appropriate compiler or interpreter for the selected programming language to compile and run the submitted code.
-  - Test case comparison: Compares the output of the user's code with the standard answers using pre-set test cases.
-  - Result feedback:
-    - Records execution time and memory usage.
-    - Counts the number of passed test cases to generate the evaluation result.
-    - Generates detailed error feedback if there are any issues.
+#### 10. Get User Management List
+- **URL**: `/api/userManagement`
+- **Method**: `GET`
+- **Incoming Parameters**: None
+- **Return Parameters**: `data` (list of user details)
 
+#### 11. Save User Data
+- **URL**: `/api/userManagement`
+- **Method**: `POST`
+- **Incoming Parameters**: 
+  - `name`: `this.editName`
+  - `mail`: `this.editEmail`
+  - `password`: `this.editPassword`
+  - `type`: `this.editType`
+- **Return Parameters**: `response` (status of the save operation)
 
+#### 12. Get Categorized Problems
+- **URL**: `/api/category_problem`
+- **Method**: `GET`
+- **Incoming Parameters**: 
+  - `catogory`: `this.catogory_choose`
+- **Return Parameters**: `ProblemList` (list of categorized problems)
 
-## Conclusion
-The Online Judge System (OJS) aims to provide an extensive range of programming challenges and an efficient evaluation mechanism, supporting multiple programming languages and user roles. The system is designed to cater to users of different skill levels, helping them enhance their coding skills through a structured and engaging platform.
+#### 13. Get Hard-Based Problems
+- **URL**: `/api/get_hard_based_problems`
+- **Method**: `GET`
+- **Incoming Parameters**:
+  - `hard_choose`: this.hard_choose
+- **Return Parameters**: `ProblemList` (list of hard-based problems)
 
+#### 14. Get User History
+- **URL**: `/api/history`
+- **Method**: `GET`
+- **Incoming Parameters**: None
+- **Return Parameters**: `data` (list of user history details)
+
+#### 15. Admin Login
+- **URL**: `/api/admin_login`
+- **Method**: `POST`
+- **Incoming Parameters**:
+  - `username`: `this.username`
+  - `password`: `this.password`
+- **Return Parameters**: `response.data.result` (status of the login operation)
+
+#### 16. Fetch Captcha
+- **URL**: `/api/getCaptcha`
+- **Method**: `GET`
+- **Incoming Parameters**: None
+- **Return Parameters**: `captcha` (randomly generated captcha image)
+
+#### 17. Get Personal Information
+- **URL**: `/api/getPersonInfo`
+- **Method**: `GET`
+- **Incoming Parameters**: 
+  - `username`: `this.username`
+- **Return Parameters**: 
+  - `totalQuestions`
+  - `completedQuestions`
+  - `avg_score`
+  - `max_score`
+
+#### 18. Get Problem Details
+- **URL**: `/api/getProblem`
+- **Method**: `GET`
+- **Incoming Parameters**: 
+  - `prob`: `this.problemName`
+- **Return Parameters**: 
+  - `problemDescription`
+  - `problemInputDescription`
+  - `problemOutputDescription`
+  - `problemInputOutputSample`
+  - `timeLimit`
+  - `memoryLimit`
+  - `difficultyLevel`
+  - `problemCategory`
+
+#### 19. Submit Code
+- **URL**: `/api/sendData`
+- **Method**: `POST`
+- **Incoming Parameters**: 
+  - `prob`: `this.problemName`
+  - `language`: `this.language`
+  - `code`: `this.code`
+- **Return Parameters**: 
+  - `timeCost`
+  - `memoryCost`
+  - `resultScore`
+  - `resultInformation`
+
+#### 20. Register User
+- **URL**: `/api/register`
+- **Method**: `POST`
+- **Incoming Parameters**: 
+  - `email`: this.email
+  - `username`: this.username
+  - `password`: this.password
+- **Return Parameters**: `response.result` (status of the registration operation)
+
+#### 21. Get Captcha
+- **URL**: `/api/getCaptcha`
+- **Method**: `GET`
+- **Incoming Parameters**: None
+- **Return Parameters**: `captcha` (randomly generated captcha image)
+
+#### 22. Send Email Captcha
+- **URL**: `/api/email_captcha`
+- **Method**: `GET`
+- **Incoming Parameters**: 
+  - `email`: this.email
+- **Return Parameters**: `response.result` (status of the email captcha sending operation)
+
+#### 23. Reset Password
+- **URL**: `/api/reset_password`
+- **Method**: `GET`
+- **Incoming Parameters**: 
+  - `email`: this.email
+  - `username`: this.username
+  - `password`: this.password
+  - `email_captcha`: this.email_captcha
+- **Return Parameters**: `response.result` (status of the password reset operation)
