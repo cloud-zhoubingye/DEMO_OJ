@@ -2,6 +2,9 @@
 Project of "Software Engineer" course in 24fall, SCU with supervisor Luo.  
 __This is the code repositories for front-end code in our programme.__ 
 
+## Deploy
+Modify ```'http://localhost:8080'``` into real back-end address in file ```vue.config.js``` and ```/src/main.js```.
+
 ## Install
 ```shell
 npm install
