@@ -1,3 +1,0 @@
-git add .
-git commit -m "update code"
-git push https://github.com/cloud-zhoubingye/OJS.git

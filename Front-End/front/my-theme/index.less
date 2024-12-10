@@ -1,0 +1,287 @@
+@import '~view-ui-plus/src/styles/index.less';
+
+// Here are the variables to cover, such as:
+@primary-color          : #8c0776;
+@info-color             : #b508c8;
+@success-color          : #921a9d;
+@processing-color       : @primary-color;
+@warning-color          : #ff9900;
+@error-color            : #f80828;
+@error-hover-color      : color(~`colorPalette('@{error-color}', 5) `);
+@error-active-color     : color(~`colorPalette('@{error-color}', 7) `);
+@normal-color           : #e6ebf1;
+@link-color             : #cc2df0;
+@link-hover-color       : tint(@link-color, 20%);
+@link-active-color      : shade(@link-color, 5%);
+@selected-color         : fade(@primary-color, 90%);
+@tooltip-color          : #fff;
+@subsidiary-color       : #de6ae0;
+@rate-star-color        : #9a07ee;
+@white: #fff;
+@black: #000;
+
+// Base
+@body-background        : #fff;
+@component-background   : #fff;
+@font-family            : "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+@code-family            : Consolas,Menlo,Courier,monospace;
+@title-color            : #17233d;
+@text-color             : #515a6e;
+@text-color-secondary   : fade(@black, 45%);
+@heading-color          : fade(#000, 85%);
+@heading-color-dark     : fade(@white, 100%);
+@font-size-base         : 14px;
+@font-size-small        : 12px;
+@font-size-large        : @font-size-base + 2px;
+@heading-1-size         : ceil(@font-size-base * 2.71);
+@heading-2-size         : ceil(@font-size-base * 2.14);
+@heading-3-size         : ceil(@font-size-base * 1.71);
+@heading-4-size         : ceil(@font-size-base * 1.42);
+@heading-5-size         : ceil(@font-size-base * 1.14);
+@heading-6-size         : ceil(@font-size-base * 1);
+@line-height-base       : 1.5;
+@line-height-computed   : floor((@font-size-base * @line-height-base));
+@border-radius-base     : 6px;
+@border-radius-small    : 4px;
+@cursor-disabled        : not-allowed;
+
+// LINK
+@link-decoration        : none;
+@link-hover-decoration  : none;
+@link-focus-decoration  : none;
+@link-focus-outline     : 0;
+
+// Disabled
+@disabled-color: fade(#000, 25%);
+
+// vertical paddings
+@padding-lg: 24px; // containers
+@padding-md: 16px; // small containers and buttons
+@padding-sm: 12px; // Form controls and items
+@padding-xs: 8px; // small items
+
+// Border color
+@border-color-base      : #dcdee2;  // outside
+@border-color-split     : #e8eaec;  // inside
+@border-width-base      : 1px;            // width of the border for a component
+@border-style-base      : solid;          // style of a components border
+
+// Background color
+@background-color-base        : #f7f7f7;  // base
+@background-color-select-hover: @input-disabled-bg;
+@tooltip-bg                   : rgba(141, 51, 169, 0.9);
+@head-bg                      : #f9fafc;
+@table-thead-bg               : #f8f8f9;
+@table-td-stripe-bg           : #f8f8f9;
+@table-td-hover-bg            : #ebf7ff;
+@table-td-highlight-bg        : #ebf7ff;
+@menu-dark-title              : #7e2fa8;
+@menu-dark-active-bg          : #9f12d3;
+@menu-dark-subsidiary-color   : rgba(0, 0, 0, 0.7);
+@menu-dark-group-title-color  : rgba(230, 44, 240, 0.7);
+@date-picker-cell-hover-bg    : #c089be;
+
+
+// Shadow
+@shadow-color           : rgba(89, 5, 100, 0.2);
+@shadow-base            : @shadow-down;
+@shadow-card            : 0 1px 1px 0 rgba(110, 15, 139, 0.1);
+@shadow-up              : 0 -1px 6px @shadow-color;
+@shadow-down            : 0 1px 6px @shadow-color;
+@shadow-left            : -1px 0 6px @shadow-color;
+@shadow-right           : 1px 0 6px @shadow-color;
+
+// Button
+@btn-height-base        : 32px;
+@btn-height-large       : 40px;
+@btn-height-small       : 24px;
+
+@btn-padding-base       : 0 @padding-md - 1px;
+@btn-padding-large      : @btn-padding-base;
+@btn-padding-small      : 0 @padding-xs - 1px;
+
+@btn-font-weight        : normal;
+@btn-padding-base-icon  : 5px 15px 6px;
+@btn-padding-large-icon : 6px 15px 6px 15px;
+@btn-padding-small-icon : 1px 7px 2px;
+@btn-font-size          : @font-size-base;
+@btn-font-size-large    : @font-size-large;
+@btn-font-size-small    : @font-size-base;
+@btn-border-radius      : 4px;
+@btn-border-radius-small: 3px;
+@btn-group-border       : shade(@primary-color, 5%);
+
+@btn-disable-color      : #dcc7dd;
+@btn-disable-bg         : @background-color-base;
+@btn-disable-border     : @border-color-base;
+
+@btn-default-color      : @text-color;
+@btn-default-bg         : #fff;
+@btn-default-border     : @border-color-base;
+
+@btn-primary-color      : #fff;
+@btn-primary-bg         : @primary-color;
+
+@btn-ghost-color        : @text-color;
+@btn-ghost-bg           : #fff;
+@btn-ghost-border       : @border-color-base;
+
+@btn-circle-size        : @btn-height-base;
+@btn-circle-size-large  : @btn-height-large;
+@btn-circle-size-small  : @btn-height-small;
+
+@btn-square-size        : @btn-height-base;
+@btn-square-size-large  : @btn-height-large;
+@btn-square-size-small  : @btn-height-small;
+
+
+// Layout and Grid
+@grid-columns                : 24;
+@grid-gutter-width           : 0;
+@layout-body-background      : #ffffff;
+@layout-header-background    : #6e2a8f;
+@layout-header-height        : 64px;
+@layout-header-padding       : 0 50px;
+@layout-footer-padding       : 24px 50px;
+@layout-footer-background    : @layout-body-background;
+@layout-sider-background     : #84598d;
+@layout-trigger-height       : 48px;
+@layout-trigger-color        : #fff;
+@layout-zero-trigger-width   : 36px;
+@layout-zero-trigger-height  : 42px;
+
+// Legend
+@legend-color           : #812691;
+
+
+// Input
+@input-height-base           : 32px;
+@input-height-large          : 40px;
+@input-height-small          : 24px;
+
+@input-padding-horizontal    : 7px;
+@input-padding-vertical-base : 4px;
+@input-padding-vertical-small: 1px;
+@input-padding-vertical-large: 6px;
+
+@input-placeholder-color     : @btn-disable-color;
+@input-color                 : @text-color;
+@input-border-color          : @border-color-base;
+@input-bg                    : #fff;
+@input-group-bg              : #f8f8f9;
+
+@input-hover-border-color    : @primary-color;
+@input-focus-border-color    : @primary-color;
+@input-disabled-bg           : #f3f3f3;
+
+// Tag
+@tag-font-size          : 12px;
+
+// Media queries breakpoints
+// Extra small screen / phone
+@screen-xs              : 480px;
+@screen-xs-min          : @screen-xs;
+@screen-xs-max          : (@screen-xs-min - 1);
+
+// Small screen / tablet
+@screen-sm              : 576px;
+@screen-sm-min          : @screen-sm;
+@screen-sm-max          : (@screen-sm-min - 1);
+
+// Medium screen / desktop
+@screen-md              : 768px;
+@screen-md-min          : @screen-md;
+@screen-md-max          : (@screen-md-min - 1);
+
+// Large screen / wide desktop
+@screen-lg              : 992px;
+@screen-lg-min          : @screen-lg;
+@screen-lg-max          : (@screen-lg-min - 1);
+
+// Extra large screen / full hd
+@screen-xl              : 1200px;
+@screen-xl-min          : @screen-xl;
+@screen-xl-max          : (@screen-xl-min - 1);
+
+// Extra extra large screen / large descktop
+@screen-xxl             : 1600px;
+@screen-xxl-min         : @screen-xxl;
+@screen-xxl-max         : (@screen-xxl-min - 1);
+
+// Z-index
+@zindex-spin            : 8;
+@zindex-affix           : 10;
+@zindex-back-top        : 10;
+@zindex-menu            : 1;
+@zindex-select          : 900;
+@zindex-modal           : 1000;
+@zindex-drawer          : 1000;
+@zindex-message         : 1010;
+@zindex-notification    : 1010;
+@zindex-tooltip         : 1060;
+@zindex-transfer        : 1060;
+@zindex-loading-bar     : 2000;
+@zindex-spin-fullscreen : 2010;
+
+// Animation
+@animation-time         : .3s;
+@animation-time-quick   : .15s;
+@transition-time        : .2s;
+@ease-in-out            : ease-in-out;
+
+// Slider
+@slider-color              : tint(@primary-color, 20%);
+@slider-height             : 4px;
+@slider-margin             : 16px 0;
+@slider-button-wrap-size   : 18px;
+@slider-button-wrap-offset : -5px;
+@slider-disabled-color     : #b37faf;
+
+// Avatar
+@avatar-size-base: 32px;
+@avatar-size-lg: 40px;
+@avatar-size-sm: 24px;
+@avatar-font-size-base: 18px;
+@avatar-font-size-lg: 24px;
+@avatar-font-size-sm: 14px;
+@avatar-bg: #eaa1da;
+@avatar-color: #fff;
+@avatar-border-radius: @border-radius-small;
+
+// Anchor
+@anchor-border-width: 2px;
+
+// List
+@list-header-background: transparent;
+@list-footer-background: transparent;
+@list-empty-text-padding: @padding-md;
+@list-item-padding: @padding-sm 0;
+@list-item-meta-margin-bottom: @padding-md;
+@list-item-meta-avatar-margin-right: @padding-md;
+@list-item-meta-title-margin-bottom: @padding-sm;
+
+// Skeleton
+@skeleton-base-color: rgba(103, 65, 117, 0.2);
+@skeleton-to-color: shade(@skeleton-base-color, 5%);
+@skeleton-border-radius-round: 40px;
+@skeleton-item-margin: 16px;
+@skeleton-height-base: 32px;
+@skeleton-height-large: 40px;
+@skeleton-height-small: 24px;
+@skeleton-rect-width-base: 160px;
+@skeleton-rect-width-large: 200px;
+@skeleton-rect-width-small: 120px;
+@skeleton-image-width-base: 48px;
+@skeleton-image-width-large: 96px;
+@skeleton-image-width-small: 32px;
+
+// Typography
+@typography-title-font-weight: 600;
+@typography-title-margin-top: 1.2em;
+@typography-title-margin-bottom: 0.5em;
+
+// Image
+@image-preview-operations-background: rgba(102, 60, 111, 0.4);
+@image-preview-operations-fontsize: 26px;
+@image-preview-operations-hover: .75;
+@image-preview-operations-disabled-color: #dd9cec;
