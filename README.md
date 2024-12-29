@@ -1,4 +1,4 @@
-# Online Judge System (OJS)
+# Online Judge System (DEMO_OJ)
 Project of "Software Engineer" course in 24fall, SCU with supervisor Luo.    
 - Back-End Code: https://github.com/cloud-zhoubingye/OJS/tree/main/Back-End/admin_demo
 - Front-End Code: https://github.com/cloud-zhoubingye/OJS/tree/main/Front-End/front
