@@ -11,5 +11,5 @@ The Online Judge System (OJS) is a comprehensive platform that provides a wide r
 ## Team and Contributions 
 - **Yunfan Zhang**: Database design and backend development for CRUD operations. 
 - **Liaotian Feng**: Development of the code evaluation engine and backend business logic implementation. 
-- **Bingye Zhou**: Frontend development for user and admin interfaces.
+- **Peter Joe**: Frontend development for user and admin interfaces.
 
